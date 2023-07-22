@@ -10,26 +10,56 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-  document.addEventListener("click", function (e) {
-    const target = e.target;
+  // document.addEventListener("click", function (e) {
+  //   const target = e.target;
 
-    if (target.classList.contains("show-modal")) {
-      toggleModalClass(document.querySelector('.modal'));
-    } 
+  //   if (target.classList.contains("show-modal")) {
+  //     toggleModalClass(document.querySelector('.modal'));
+  //   } 
     
-    if (target.classList.contains("close-modal") || target.classList.contains("overlay")) {
-      toggleModalClass(document.querySelector('.modal'));
-    }
+  //   if (target.classList.contains("close-modal") || target.classList.contains("overlay")) {
+  //     toggleModalClass(document.querySelector('.modal'));
+  //   }
+  // });
+
+  // function toggleModalClass(modalEl) {
+  //   if (modalEl.classList.contains('hidden')) {
+  //     modalEl.classList.remove("hidden");
+  //     document.querySelector(".overlay").classList.remove("hidden");
+  //   } else {
+  //     modalEl.classList.add("hidden");
+  //     document.querySelector(".overlay").classList.add("hidden");
+  //   }
+  // };
+
+
+  const openModalBtns = document.querySelectorAll('.show-modal'),
+        modalWindow = document.querySelector('.modal'),
+        closeBtn = document.querySelector('.close-modal'),
+        overlay = document.querySelector('.overlay');
+
+  openModalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleModalClass(modalWindow, overlay);
+    });
   });
 
-  function toggleModalClass(modalEl) {
-    if (modalEl.classList.contains('hidden')) {
-      modalEl.classList.remove("hidden");
-      document.querySelector(".overlay").classList.remove("hidden");
-    } else {
-      modalEl.classList.add("hidden");
-      document.querySelector(".overlay").classList.add("hidden");
+  closeBtn.addEventListener('click', () => {
+    toggleModalClass(modalWindow, overlay);
+  });
+
+  overlay.addEventListener('click', () => {
+    toggleModalClass(modalWindow, overlay);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modalWindow.classList.contains('hidden')) {
+      toggleModalClass(modalWindow, overlay);
     }
+  })
+
+  function toggleModalClass(modalEl, overlayEl) {
+    modalEl.classList.toggle('hidden');
+    overlayEl.classList.toggle('hidden');
   };
-  
 });
